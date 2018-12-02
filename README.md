@@ -4,11 +4,16 @@
 
 [![NPM](https://img.shields.io/npm/v/react-tabset-skeleton.svg)](https://www.npmjs.com/package/react-tabset-skeleton) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-# 简述
+## 简述
 
-在 github 里搜到的 tabset 组件均带 ui 界面, 与项目 ui 风格差距甚远
-让人郁闷的是: 这类组件通常需要提供 style 进行定制, 不能适应复杂需求
+在 github 里搜到的 tabset 组件均带 ui 界面, 与项目 ui 风格差距甚远\
+让人郁闷的是: 这类组件通常需要提供 style 进行定制, 不能适应复杂需求\
 因此提供了此骨架组件
+
+## 场景
+
+仅支持 tabs(多标签页)组件
+如果你发现 github 里找到的 tabs 与你网站风格不搭, 也不喜欢使用 style 定制, 可以试下此组件
 
 ## Install
 
