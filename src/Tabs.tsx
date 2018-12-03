@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import TabPanel from './TabPanel';
 import { interleave, nextKey } from './utils';
 
-type IProps = {
+export type ITabsProps = {
   defaultActiveKey: number | string;
-  children: TabPanel[];
+  children: ReactElement<TabPanel>[];
 
   // 两个tabTitle的间距
   tabGap?: number;
@@ -26,20 +26,20 @@ interface IState {
   activeKey: number | string;
 }
 
-class Tabs extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class Tabs extends React.Component<ITabsProps, IState> {
+  constructor(props: ITabsProps) {
     super(props);
     this.state = { activeKey: props.defaultActiveKey };
   }
 
-  isActiveTab = (child: TabPanel) =>
+  isActiveTab = (child: ReactElement<TabPanel>) =>
     (child as any).key === this.state.activeKey;
 
   switchTo = (key: string | number) => this.setState({ activeKey: key });
 
   activePanelContent = () => {
     const activeTab = this.props.children.find(this.isActiveTab);
-    return activeTab && activeTab.props.children;
+    return activeTab && (activeTab.props as any).children;
   };
 
   render() {
@@ -53,18 +53,15 @@ class Tabs extends React.Component<IProps, IState> {
       panelPlacement
     } = props;
 
-    const tabNode = (child: TabPanel) => {
+    const tabNode = (child: ReactElement<TabPanel>) => {
       const childKey = (child as any).key;
-      return tabRenderer(
-        <a
-          key={childKey}
-          href="javascript:void(0)"
-          onClick={() => this.switchTo(childKey)}
-        >
-          {child.props.tab}
+      const _tab = tabRenderer(
+        <a href="javascript:void(0)" onClick={() => this.switchTo(childKey)}>
+          {(child.props as any).tab}
         </a>,
         this.isActiveTab(child)
       );
+      return React.cloneElement(_tab as ReactElement<any>, { key: childKey });
     };
 
     let tabsArrayNode = (props.children || []).map(tabNode);
@@ -101,7 +98,7 @@ class Tabs extends React.Component<IProps, IState> {
       <div style={{ display: 'flex', flexDirection }}>{content}</div>
     );
     return React.cloneElement(_rootContainer, {
-      style: { ..._rootContainer.props.style, fontSize: 30 }
+      style: { ..._rootContainer.props.style }
     });
   }
 }
