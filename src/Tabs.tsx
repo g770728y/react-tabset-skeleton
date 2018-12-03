@@ -56,12 +56,14 @@ class Tabs extends React.Component<ITabsProps, IState> {
     const tabNode = (child: ReactElement<TabPanel>) => {
       const childKey = (child as any).key;
       const _tab = tabRenderer(
-        <a href="javascript:void(0)" onClick={() => this.switchTo(childKey)}>
-          {(child.props as any).tab}
-        </a>,
+        <span>{(child.props as any).tab}</span>,
         this.isActiveTab(child)
       );
-      return React.cloneElement(_tab as ReactElement<any>, { key: childKey });
+      return React.cloneElement(_tab as ReactElement<any>, {
+        key: childKey,
+        onClick: () => this.switchTo(childKey),
+        style: { ...(_tab as ReactElement<any>).props.style, cursor: 'pointer' }
+      });
     };
 
     let tabsArrayNode = (props.children || []).map(tabNode);
